@@ -1,13 +1,36 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'clientGui.ui'
-#
-# Created by: PyQt5 UI code generator 5.13.0
-#
-# WARNING! All changes made in this file will be lost!
-
-
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+STYLE_SHEET = """
+QWidget{
+    background-color: blue;
+}
+QLabel {
+    font: medium Ubuntu;
+    font-size: 20px;
+    color: #006325;
+}
+
+QVBoxLayout {
+    background-color: #006325;
+    color: white;
+
+    min-width:  70px;
+    max-width:  70px;
+    min-height: 70px;
+    max-height: 70px;
+
+    border-radius: 35px;
+    border-width: 1px;
+    border-color: #ae32a0;
+    border-style: solid;
+}
+QPushButton:hover {
+    background-color: #328930;
+}
+QPushButton:pressed {
+    background-color: #80c342;
+}
+"""
 
 
 class Ui_MainWindow(object):
@@ -53,5 +76,10 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Client"))
-        self.inputLabel.setText(_translate("MainWindow", "Username: "))
+        self.menubar.setStyleSheet("""
+        QMenuBar {
+             background-color: blue;
+        }
+        """)
+        self.inputLabel.setText(_translate("MainWindow", "Имя игрока: "))
         self.pushButton.setText(_translate("MainWindow", "OK"))

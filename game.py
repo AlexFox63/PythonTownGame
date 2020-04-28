@@ -18,9 +18,9 @@ class Send:
 
     def getStart(self):
         if self.start:
-            return "Игра началась. Вы играете против " + self.username + " .\n"
+            return "Игра началась. Ваш соперник: " + self.username + " .\n"
         else:
-            return "Игра не началась. ождитесь подключения"
+            return "Игра не началась. Дождитесь подключения"
 
     def getMove(self):
         if self.move:

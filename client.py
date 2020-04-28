@@ -78,7 +78,7 @@ class MainClientWindow(QtWidgets.QMainWindow):
 
 
     def pressButton(self):
-        if self.ui.inputLabel.text() == "Username: " and self.ui.lineEdit.text() != "":
+        if self.ui.inputLabel.text() == "Имя игрока: " and self.ui.lineEdit.text() != "":
             self.username = self.ui.lineEdit.text()
             self.ui.resultLabel.setText("Имя пользователя " + str(self.username))
             self.send.username = self.username

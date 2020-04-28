@@ -12,7 +12,7 @@ class Server:
     def __init__(self):
         self.clients = []
         self.cities = []
-        self.city_last_letter = ""
+        self.last_letter = ""
         self.host = socket.gethostbyname(socket.gethostname())
         self.port = 9095
         self.quit = True
@@ -28,8 +28,8 @@ class Server:
         while True:
             try:
                 send = Send(**json.loads(self.receive(client)))
-                if self.city_last_letter == "" and len(send.city) != 0:
-                    self.city_last_letter = send.city[-1]
+                if self.last_letter == "" and len(send.city) != 0:
+                    self.last_letter = send.city[-1]
             except Exception:
                 print("Error")
                 return
@@ -50,12 +50,12 @@ class Server:
             return
         for cl in self.clients:
             if cl != client:
-                self.gameplay(send, client, cl)
+                self.game_logic(send, client, cl)
 
     def check(self, send):
         if len(self.cities) == 0:
             return True
-        if send.city[0].lower() != self.city_last_letter.lower():
+        if send.city[0].lower() != self.last_letter.lower():
             return False
         for c in self.cities:
             if send.city.lower() == c.lower():
@@ -63,8 +63,8 @@ class Server:
         return True
 
 
-    def gameplay(self, send, client1, client2):
-        if self.city_last_letter == "":
+    def game_logic(self, send, client1, client2):
+        if self.last_letter == "":
             send.start = True
             send.move = True
             client2.sendall(send.marshal())
@@ -72,7 +72,7 @@ class Server:
             client1.sendall(send.marshal())
             return
         if self.check(send):
-            self.city_last_letter = send.city[-1]
+            self.last_letter = send.city[-1]
             self.cities.append(send.city)
             send.move = True
             client2.sendall(send.marshal())
