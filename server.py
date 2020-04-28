@@ -10,8 +10,8 @@ BUFFER_SIZE = 2**10
 class Server:
 
     def __init__(self):
-        self.clients = []
-        self.cities = []
+        self.clients = [] #массив клиентов
+        self.cities = [] #массив городов
         self.last_letter = ""
         self.host = socket.gethostbyname(socket.gethostname())
         self.port = 9095
@@ -20,14 +20,14 @@ class Server:
     def receive(self, client):
         buffer = ""
         while not buffer.endswith(game.END_CHARACTER):
-            buffer += client.recv(BUFFER_SIZE).decode(game.TARGET_ENCODING)
+            buffer += client.recv(BUFFER_SIZE).decode(game.TARGET_ENCODING) #получаем сообщение от клиента
         print(buffer)
         return buffer[:-1]
 
     def connect(self, client):
         while True:
             try:
-                send = Send(**json.loads(self.receive(client)))
+                send = Send(**json.loads(self.receive(client))) #загрузка данных в json
                 if self.last_letter == "" and len(send.city) != 0:
                     self.last_letter = send.city[-1]
             except Exception:
@@ -44,7 +44,7 @@ class Server:
             self.broadcast(send, client)
 
 
-    def broadcast(self, send, client):
+    def broadcast(self, send, client): #метод отправки сообщений клиентам
         if len(self.clients) == 1:
             client.sendall(send.marshal())
             return
@@ -52,7 +52,7 @@ class Server:
             if cl != client:
                 self.game_logic(send, client, cl)
 
-    def check(self, send):
+    def check(self, send): #проверка на правильность города
         if len(self.cities) == 0:
             return True
         if send.city[0].lower() != self.last_letter.lower():

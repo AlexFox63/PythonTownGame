@@ -24,7 +24,7 @@ class MainClientWindow(QtWidgets.QMainWindow):
         except Exception:
             print("Ошибка")
 
-    def connectServer(self):
+    def connectServer(self): #осуществеляем подключение к серверу через сокет по номеру порта
         try:
             self.clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.clientsocket.connect((self.host, self.port))
@@ -37,7 +37,7 @@ class MainClientWindow(QtWidgets.QMainWindow):
     def receive(self):
         while True:
             try:
-                self.inputSend = Send(**json.loads(self.receive_all()))
+                self.inputSend = Send(**json.loads(self.receive_all())) #получаем сообщения от сервера
                 self.ui.resultLabel.clear()
                 self.ui.inputLabel.setText("Введите город")
                 self.send.start = self.inputSend.start
@@ -66,7 +66,7 @@ class MainClientWindow(QtWidgets.QMainWindow):
         print(buffer)
         return buffer[:-1]
 
-    def sendSity(self):
+    def sendSity(self): #отправляем сообщение-ответ при вводе города
         if not self.inputSend.start or not self.inputSend.move:
             return
         try:
@@ -90,7 +90,7 @@ class MainClientWindow(QtWidgets.QMainWindow):
         else:
             self.sendSity()
 
-    def closeEvent(self, event):
+    def closeEvent(self, event): #выход из программы
         reply = QMessageBox.question(self, "Выход", "Вы действительно хотите выйти?",
                                      QMessageBox.Yes, QMessageBox.No)
 
