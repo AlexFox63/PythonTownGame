@@ -72,7 +72,10 @@ class Server:
             client1.sendall(send.marshal())
             return
         if self.check(send):
-            self.last_letter = send.city[-1]
+            if send.city[-1].lower() == 'ь':
+                self.last_letter = send.city[-2]
+            else:
+                self.last_letter = send.city[-1]
             self.cities.append(send.city)
             send.move = True
             client2.sendall(send.marshal())
